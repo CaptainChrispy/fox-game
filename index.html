@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOX Game - Avoid the Pattern!</title>
+    <meta name="description" content="A puzzle game where you must place F, O, and X tiles without forming the word FOX in any direction.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="game-container">
+        <header>
+            <h1 class="game-title">FOX Game</h1>
+            <p class="game-instructions">
+                Place the tiles on the grid without forming "FOX" in any direction!
+            </p>
+        </header>
+
+        <section class="grid-container" role="application" aria-label="Game grid">
+            <div class="grid" id="grid">
+                <!-- 5x5 grid cells will be generated dynamically -->
+            </div>
+        </section>
+
+        <section class="tiles-container" id="tiles-container" aria-label="Available tiles">
+            <!-- Tiles will be generated dynamically -->
+        </section>
+
+        <section id="controls" role="group" aria-label="Game controls">
+            <button id="auto-button" type="button" aria-describedby="auto-description">
+                Automatic
+            </button>
+            <button id="restart-button" type="button" aria-describedby="restart-description">
+                Restart
+            </button>
+        </section>
+
+        <div id="message" role="status" aria-live="polite" aria-atomic="true"></div>
+
+        <!-- Hidden descriptions for screen readers -->
+        <div id="auto-description" class="sr-only">
+            Automatically place remaining tiles on the grid
+        </div>
+        <div id="restart-description" class="sr-only">
+            Start a new game with fresh tiles
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
