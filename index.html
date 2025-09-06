@@ -16,6 +16,15 @@
             </p>
         </header>
 
+        <section id="controls" role="group" aria-label="Game controls">
+            <button id="auto-button" type="button" aria-describedby="auto-description">
+                Automatic
+            </button>
+            <button id="restart-button" type="button" aria-describedby="restart-description">
+                Restart
+            </button>
+        </section>
+
         <div id="stats" class="stats-display"></div>
 
         <section class="grid-container" role="application" aria-label="Game grid">
@@ -26,15 +35,6 @@
 
         <section class="tiles-container" id="tiles-container" aria-label="Available tiles">
             <!-- Tiles will be generated dynamically -->
-        </section>
-
-        <section id="controls" role="group" aria-label="Game controls">
-            <button id="auto-button" type="button" aria-describedby="auto-description">
-                Automatic
-            </button>
-            <button id="restart-button" type="button" aria-describedby="restart-description">
-                Restart
-            </button>
         </section>
 
         <div id="message" role="status" aria-live="polite" aria-atomic="true"></div>

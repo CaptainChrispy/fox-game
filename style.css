@@ -226,7 +226,8 @@ header {
 }
 
 #controls {
-    margin-top: 30px;
+    margin-top: 10px;
+    margin-bottom: 20px;
     display: flex;
     gap: 20px;
 }
