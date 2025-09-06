@@ -336,3 +336,131 @@ header {
     50% { transform: scale(1.05); }
     100% { transform: scale(1); opacity: 1; }
 }
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+        min-height: 100vh;
+    }
+    
+    .game-container {
+        padding: 15px;
+        width: 100%;
+        max-width: none;
+        box-sizing: border-box;
+    }
+    
+    .game-title {
+        font-size: 2em;
+        margin: 0 0 10px 0;
+        letter-spacing: 1px;
+    }
+    
+    .game-instructions {
+        font-size: 1em;
+        margin-bottom: 10px;
+    }
+    
+    #controls {
+        margin-top: 5px;
+        margin-bottom: 15px;
+        gap: 10px;
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    #controls button {
+        padding: 12px 20px;
+        font-size: 0.9em;
+        width: 100%;
+        max-width: 200px;
+        align-self: center;
+    }
+    
+    .stats-display {
+        font-size: 0.85em;
+        padding: 8px 12px;
+        margin: 10px 0;
+    }
+    
+    .grid-container {
+        margin-bottom: 15px;
+    }
+    
+    .grid {
+        grid-template-columns: repeat(5, 60px);
+        gap: 4px;
+        padding: 10px;
+    }
+    
+    .grid-cell {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5em;
+        border-radius: 8px;
+    }
+    
+    .tiles-container {
+        grid-template-columns: repeat(5, 60px);
+        gap: 8px;
+        padding: 10px;
+        margin-top: 10px;
+    }
+    
+    .tile {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5em;
+        border-radius: 8px;
+    }
+    
+    #message {
+        font-size: 1.1em;
+        padding: 12px 15px;
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 400px) {
+    .game-container {
+        padding: 10px;
+    }
+    
+    .game-title {
+        font-size: 1.8em;
+    }
+    
+    .grid {
+        grid-template-columns: repeat(5, 50px);
+        gap: 3px;
+        padding: 8px;
+    }
+    
+    .grid-cell {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3em;
+    }
+    
+    .tiles-container {
+        grid-template-columns: repeat(5, 50px);
+        gap: 6px;
+        padding: 8px;
+    }
+    
+    .tile {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3em;
+    }
+    
+    .stats-display {
+        font-size: 0.8em;
+        padding: 6px 10px;
+    }
+    
+    #message {
+        font-size: 1em;
+        padding: 10px 12px;
+    }
+}
