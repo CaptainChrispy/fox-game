@@ -79,6 +79,7 @@ class FoxGame {
         tile.addEventListener('mouseenter', (e) => this.handleTileHover(e));
         tile.addEventListener('mouseleave', (e) => this.handleTileLeave(e));
         tile.addEventListener('mousemove', (e) => this.handleTileMouseMove(e));
+        tile.addEventListener('click', (e) => this.handleTileClick(e));
         
         return tile;
     }
@@ -118,6 +119,28 @@ class FoxGame {
         if (draggingTile) {
             draggingTile.classList.remove('dragging');
         }
+    }
+
+    handleTileClick(e) {
+        if (this.state.gameEnded) return;
+        
+        if (e.target.classList.contains('dragging')) return;
+        
+        const letter = e.target.getAttribute('data-letter');
+        const firstAvailableIndex = this.findFirstAvailableCell();
+        
+        if (firstAvailableIndex !== -1) {
+            this.placeTile(firstAvailableIndex, letter, e.target);
+        }
+    }
+
+    findFirstAvailableCell() {
+        for (let i = 0; i < this.state.placedTiles.length; i++) {
+            if (this.state.placedTiles[i] === null) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     placeTile(cellIndex, letter, tileElement) {
