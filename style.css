@@ -3,36 +3,57 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f0f0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: auto;
 }
 
 .game-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    animation: slideIn 0.6s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .game-title {
-    font-size: 2em;
-    margin: 0 0 10px 0;
-    color: #333;
+    font-size: 3em;
+    margin: 0 0 15px 0;
+    color: #2c3e50;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    letter-spacing: 2px;
 }
 
 .game-instructions {
-    font-size: 1em;
-    color: #666;
+    font-size: 1.2em;
+    color: #555;
     margin: 0;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .sr-only {
@@ -51,98 +72,251 @@ header {
     margin-bottom: 20px;
 }
 
+.grid-container {
+    margin-bottom: 30px;
+    perspective: 1000px;
+}
+
 .grid {
     display: grid;
-    grid-template-columns: repeat(5, 80px);
-    gap: 5px;
+    grid-template-columns: repeat(5, 90px);
+    gap: 8px;
+    padding: 20px;
+    background: linear-gradient(145deg, #f0f8ff, #e6f3ff);
+    border-radius: 15px;
+    box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.1),
+        0 4px 8px rgba(0, 0, 0, 0.05);
+    transform-style: preserve-3d;
 }
 
 .grid-cell {
-    width: 80px;
-    height: 80px;
-    background: white;
-    border: 1px solid #ccc;
+    width: 90px;
+    height: 90px;
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2em;
+    font-size: 2.2em;
     font-weight: bold;
+    color: #2c3e50;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    position: relative;
+    overflow: hidden;
+}
+
+.grid-cell::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+}
+
+.grid-cell:hover::before {
+    transform: translateX(100%);
 }
 
 .grid-cell.fox-pattern {
-    background: #e8f5e8;
-    border-color: #4caf50;
+    background: linear-gradient(145deg, #ff6b6b, #ee5a24);
+    border-color: #c0392b;
+    color: white;
+    animation: foxFound 0.6s ease-out;
+    box-shadow: 
+        0 0 20px rgba(255, 107, 107, 0.6),
+        0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes foxFound {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1) rotateZ(5deg); }
+    100% { transform: scale(1); }
 }
 
 .tiles-container {
     display: grid;
-    grid-template-columns: repeat(5, 80px);
-    gap: 10px;
+    grid-template-columns: repeat(5, 90px);
+    gap: 12px;
     margin-top: 20px;
+    padding: 20px;
+    background: linear-gradient(145deg, #fef9e7, #fef5e7);
+    border-radius: 15px;
+    box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.1),
+        0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 .tile {
-    width: 80px;
-    height: 80px;
-    background: white;
-    border: 1px solid #ccc;
+    width: 90px;
+    height: 90px;
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    border: 2px solid #dee2e6;
+    border-radius: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2em;
+    font-size: 2.2em;
     font-weight: bold;
+    color: #2c3e50;
     cursor: grab;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    position: relative;
+    user-select: none;
+}
+
+.tile::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), transparent);
+    border-radius: 10px;
+    pointer-events: none;
 }
 
 .tile:hover {
-    border-color: #999;
+    transform: translateY(-8px) rotateZ(2deg);
+    box-shadow: 
+        0 12px 24px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    border-color: #74b9ff;
 }
 
 .tile:active {
     cursor: grabbing;
+    transform: translateY(-4px) rotateZ(1deg) scale(0.98);
 }
 
 .tile.dragging {
-    opacity: 0.5;
+    opacity: 0.8;
+    transform: rotateZ(15deg) scale(1.05);
+    box-shadow: 
+        0 16px 32px rgba(0, 0, 0, 0.2),
+        0 0 0 2px #74b9ff;
+    z-index: 1000;
 }
 
 #controls {
-    margin-top: 20px;
+    margin-top: 30px;
     display: flex;
-    gap: 15px;
+    gap: 20px;
 }
 
 #controls button {
-    padding: 10px 20px;
-    border: 1px solid #ccc;
-    background: white;
+    padding: 15px 30px;
+    font-size: 1.1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 25px;
     cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: inherit;
+    position: relative;
+    overflow: hidden;
 }
 
-#controls button:hover:not(:disabled) {
-    background: #f0f0f0;
+#controls button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
 }
 
-#controls button:disabled {
-    background: #f5f5f5;
-    color: #999;
+#controls button:hover::before {
+    left: 100%;
+}
+
+#auto-button {
+    background: linear-gradient(145deg, #74b9ff, #0984e3);
+    color: white;
+    box-shadow: 0 4px 15px rgba(116, 185, 255, 0.4);
+}
+
+#auto-button:hover:not(:disabled) {
+    background: linear-gradient(145deg, #0984e3, #006ba6);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(116, 185, 255, 0.6);
+}
+
+#auto-button:disabled {
+    background: linear-gradient(145deg, #bdc3c7, #95a5a6);
     cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#restart-button {
+    background: linear-gradient(145deg, #fd79a8, #e84393);
+    color: white;
+    box-shadow: 0 4px 15px rgba(253, 121, 168, 0.4);
+}
+
+#restart-button:hover {
+    background: linear-gradient(145deg, #e84393, #c44569);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(253, 121, 168, 0.6);
 }
 
 #message {
-    margin-top: 20px;
-    font-size: 1.2em;
+    margin-top: 25px;
+    font-size: 1.4em;
     font-weight: bold;
     text-align: center;
-    padding: 10px;
+    padding: 20px 30px;
+    border-radius: 15px;
+    min-height: 20px;
+    transition: all 0.5s ease;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .win-message {
-    background: #d4edda;
-    color: #155724;
+    background: linear-gradient(145deg, #00b894, #00a085);
+    color: white;
+    border: 2px solid #00a085;
+    box-shadow: 
+        0 8px 25px rgba(0, 184, 148, 0.4),
+        0 0 0 4px rgba(0, 184, 148, 0.1);
+    animation: winPulse 0.6s ease-out;
 }
 
 .lose-message {
-    background: #f8d7da;
-    color: #721c24;
+    background: linear-gradient(145deg, #ff6b6b, #ee5a24);
+    color: white;
+    border: 2px solid #ee5a24;
+    box-shadow: 
+        0 8px 25px rgba(255, 107, 107, 0.4),
+        0 0 0 4px rgba(255, 107, 107, 0.1);
+    animation: losePulse 0.6s ease-out;
+}
+
+@keyframes winPulse {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes losePulse {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
 }
