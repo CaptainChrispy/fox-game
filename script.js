@@ -12,8 +12,11 @@ class FoxGame {
             tilesContainer: document.getElementById('tiles-container'),
             message: document.getElementById('message'),
             autoButton: document.getElementById('auto-button'),
-            restartButton: document.getElementById('restart-button')
+            restartButton: document.getElementById('restart-button'),
+            statsDisplay: document.getElementById('stats')
         };
+
+        this.stats = this.loadStats();
 
         this.state = {
             placedTiles: Array(this.config.gridSize * this.config.gridSize).fill(null),
@@ -30,6 +33,31 @@ class FoxGame {
         this.generateGrid();
         this.setupEventListeners();
         this.createRandomTiles();
+        this.updateStatsDisplay();
+    }
+
+    loadStats() {
+        const saved = localStorage.getItem('foxGameStats');
+        if (saved) {
+            return JSON.parse(saved);
+        }
+        return {
+            attempts: 0,
+            wins: 0,
+            losses: 0
+        };
+    }
+
+    saveStats() {
+        localStorage.setItem('foxGameStats', JSON.stringify(this.stats));
+    }
+
+    updateStatsDisplay() {
+        if (this.elements.statsDisplay) {
+            const winRate = this.stats.attempts > 0 ? Math.round((this.stats.wins / this.stats.attempts) * 100) : 0;
+            this.elements.statsDisplay.textContent = 
+                `Games: ${this.stats.attempts} | Wins: ${this.stats.wins} | Losses: ${this.stats.losses} | Win Rate: ${winRate}%`;
+        }
     }
 
     generateGrid() {
@@ -298,6 +326,16 @@ class FoxGame {
     endGame(won = false, message = '') {
         this.state.gameEnded = true;
         this.state.isAutoPlaying = false;
+        
+        // Update statistics
+        this.stats.attempts++;
+        if (won) {
+            this.stats.wins++;
+        } else {
+            this.stats.losses++;
+        }
+        this.saveStats();
+        this.updateStatsDisplay();
         
         this.elements.message.textContent = message;
         this.elements.message.className = won ? 'win-message' : 'lose-message';
