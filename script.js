@@ -104,9 +104,6 @@ class FoxGame {
         tile.setAttribute('draggable', 'true');
 
         tile.addEventListener('dragstart', (e) => this.handleDragStart(e));
-        tile.addEventListener('mouseenter', (e) => this.handleTileHover(e));
-        tile.addEventListener('mouseleave', (e) => this.handleTileLeave(e));
-        tile.addEventListener('mousemove', (e) => this.handleTileMouseMove(e));
         tile.addEventListener('click', (e) => this.handleTileClick(e));
         
         return tile;
@@ -120,8 +117,12 @@ class FoxGame {
         if (this.state.gameEnded) return;
         
         e.dataTransfer.setData('text', e.target.dataset.letter);
-        e.dataTransfer.setData('tileElement', e.target.outerHTML);
         e.target.classList.add('dragging');
+        
+        e.target.setAttribute('data-dragging', 'true');
+        setTimeout(() => {
+            e.target.removeAttribute('data-dragging');
+        }, 100);
     }
 
     handleDragOver(e) {
@@ -152,7 +153,10 @@ class FoxGame {
     handleTileClick(e) {
         if (this.state.gameEnded) return;
         
+        if (e.target.hasAttribute('data-dragging')) return;
         if (e.target.classList.contains('dragging')) return;
+        e.preventDefault();
+        e.stopPropagation();
         
         const letter = e.target.getAttribute('data-letter');
         const firstAvailableIndex = this.findFirstAvailableCell();
@@ -290,18 +294,6 @@ class FoxGame {
         }
         
         return pattern;
-    }
-
-    handleTileHover(e) {
-        if (this.state.gameEnded) return;
-    }
-
-    handleTileLeave(e) {
-        if (this.state.gameEnded) return;
-    }
-
-    handleTileMouseMove(e) {
-        if (this.state.gameEnded) return;
     }
 
     restartGame() {
