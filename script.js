@@ -13,7 +13,8 @@ class FoxGame {
             message: document.getElementById('message'),
             autoButton: document.getElementById('auto-button'),
             restartButton: document.getElementById('restart-button'),
-            statsDisplay: document.getElementById('stats')
+            statsDisplay: document.getElementById('stats'),
+            themeToggle: document.getElementById('theme-toggle')
         };
 
         this.stats = this.loadStats();
@@ -34,6 +35,7 @@ class FoxGame {
         this.setupEventListeners();
         this.createRandomTiles();
         this.updateStatsDisplay();
+        this.initTheme();
     }
 
     loadStats() {
@@ -81,6 +83,7 @@ class FoxGame {
         this.elements.autoButton.addEventListener('click', () => this.autoPlay());
         this.elements.grid.addEventListener('dragover', (e) => this.handleDragOver(e));
         this.elements.grid.addEventListener('drop', (e) => this.handleDrop(e));
+        this.elements.themeToggle.addEventListener('click', () => this.toggleTheme());
     }
 
     createRandomTiles() {
@@ -343,6 +346,28 @@ class FoxGame {
             tile.setAttribute('draggable', 'false');
             tile.style.cursor = 'not-allowed';
         });
+    }
+
+    initTheme() {
+        const savedTheme = localStorage.getItem('foxGameTheme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        this.updateThemeToggleIcon(savedTheme);
+    }
+
+    toggleTheme() {
+        const currentTheme = document.body.getAttribute('data-theme') || 'light';
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        document.body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('foxGameTheme', newTheme);
+        this.updateThemeToggleIcon(newTheme);
+    }
+
+    updateThemeToggleIcon(theme) {
+        this.elements.themeToggle.textContent = theme === 'light' ? '🌙' : '☀️';
+        this.elements.themeToggle.setAttribute('aria-label', 
+            theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'
+        );
     }
 }
 
