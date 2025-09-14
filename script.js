@@ -3,7 +3,7 @@ class FoxGame {
         this.config = {
             gridSize: 5,
             letters: ['F', 'O', 'X'],
-            autoPlacementDelay: 500,
+            autoPlacementDelay: 200,
             targetWord: 'FOX'
         };
 
@@ -178,7 +178,11 @@ class FoxGame {
         return -1;
     }
 
-    placeTile(cellIndex, letter, tileElement) {
+    placeTile(cellIndex, letter, tileElement, animated = false) {
+        if (animated && tileElement) {
+            return this.placeTileAnimated(cellIndex, letter, tileElement);
+        }
+
         const cell = this.elements.grid.children[cellIndex];
         cell.textContent = letter;
         this.state.placedTiles[cellIndex] = letter;
@@ -187,6 +191,46 @@ class FoxGame {
             tileElement.remove();
         }
 
+        this.checkGameState();
+    }
+
+    async placeTileAnimated(cellIndex, letter, tileElement) {
+        const cell = this.elements.grid.children[cellIndex];
+        
+        const tileRect = tileElement.getBoundingClientRect();
+        const cellRect = cell.getBoundingClientRect();
+        
+        const deltaX = cellRect.left - tileRect.left;
+        const deltaY = cellRect.top - tileRect.top;
+        
+        const flyingTile = tileElement.cloneNode(true);
+        flyingTile.classList.add('tile-flying');
+        flyingTile.style.left = tileRect.left + 'px';
+        flyingTile.style.top = tileRect.top + 'px';
+        flyingTile.style.width = tileRect.width + 'px';
+        flyingTile.style.height = tileRect.height + 'px';
+        flyingTile.style.setProperty('--target-x', deltaX + 'px');
+        flyingTile.style.setProperty('--target-y', deltaY + 'px');
+        
+        document.body.appendChild(flyingTile);
+        
+        tileElement.remove();
+        
+        await new Promise(resolve => setTimeout(resolve, 400));
+        
+        flyingTile.remove();
+        
+        cell.classList.add('tile-flipping');
+        
+        setTimeout(() => {
+            cell.textContent = letter;
+            this.state.placedTiles[cellIndex] = letter;
+        }, 200);
+        
+        await new Promise(resolve => setTimeout(resolve, 400));
+
+        cell.classList.remove('tile-flipping');
+        
         this.checkGameState();
     }
 
@@ -229,7 +273,7 @@ class FoxGame {
             }
             
             if (cellIndex < totalTiles) {
-                this.placeTile(cellIndex, letter, tile);
+                await this.placeTile(cellIndex, letter, tile, true);
                 this.state.currentTileIndex = cellIndex + 1;
             } else {
                 break;

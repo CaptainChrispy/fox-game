@@ -200,6 +200,43 @@ header {
     100% { transform: scale(1); }
 }
 
+@keyframes tileFlightPath {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--target-x), var(--target-y)) scale(0.8);
+        opacity: 0.7;
+    }
+}
+
+@keyframes tileFlip {
+    0% {
+        transform: perspective(400px) rotateY(0deg);
+        background: var(--cell-bg);
+    }
+    50% {
+        transform: perspective(400px) rotateY(90deg);
+        background: var(--cell-bg);
+    }
+    100% {
+        transform: perspective(400px) rotateY(0deg);
+        background: var(--cell-bg);
+    }
+}
+
+.tile-flying {
+    position: fixed !important;
+    z-index: 1000;
+    pointer-events: none;
+    animation: tileFlightPath 0.4s ease-out;
+}
+
+.tile-flipping {
+    animation: tileFlip 0.4s ease-in-out;
+}
+
 .tiles-container {
     display: grid;
     grid-template-columns: repeat(5, 90px);
