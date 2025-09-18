@@ -266,9 +266,27 @@ header {
     user-select: none;
 }
 
+.tile::before {
+    content: '';
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 2px;
+    background: var(--text-muted);
+    opacity: 0.3;
+    border-radius: 1px;
+}
+
 .tile:hover {
     transform: translateY(-2px);
     border-color: #007bff;
+}
+
+.tile:hover::before {
+    opacity: 0.6;
+    transform: translateX(-50%) scaleX(1.2);
 }
 
 .tile:active {
