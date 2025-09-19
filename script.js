@@ -257,6 +257,7 @@ class FoxGame {
         this.state.isAutoPlaying = true;
         this.elements.autoButton.disabled = true;
         this.elements.autoButton.textContent = 'Auto Playing...';
+        this.elements.restartButton.disabled = true;
         
         const totalTiles = this.config.gridSize * this.config.gridSize;
         
@@ -285,6 +286,7 @@ class FoxGame {
         }
         
         this.state.isAutoPlaying = false;
+        this.elements.restartButton.disabled = false;
         if (!this.state.gameEnded) {
             this.elements.autoButton.disabled = false;
             this.elements.autoButton.textContent = 'Automatic';
@@ -344,6 +346,8 @@ class FoxGame {
     }
 
     restartGame() {
+        if (this.state.isAutoPlaying) return;
+        
         this.state.placedTiles = Array(this.config.gridSize * this.config.gridSize).fill(null);
         this.state.currentTileIndex = 0;
         this.state.gameEnded = false;
@@ -383,6 +387,7 @@ class FoxGame {
         
         this.elements.autoButton.disabled = true;
         this.elements.autoButton.textContent = 'Game Over';
+        this.elements.restartButton.disabled = false;
     }
 
     disableInteractions() {
