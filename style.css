@@ -351,6 +351,10 @@ header {
     transform: translateY(-1px);
 }
 
+#message:empty {
+    display: none;
+}
+
 #message {
     margin-top: 10px;
     margin-bottom: 20px;
