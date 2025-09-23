@@ -4,7 +4,8 @@ class FoxGame {
             gridSize: 5,
             letters: ['F', 'O', 'X'],
             autoPlacementDelay: 200,
-            targetWord: 'FOX'
+            targetWord: 'FOX',
+            animationSpeed: 1
         };
 
         this.elements = {
@@ -14,7 +15,8 @@ class FoxGame {
             autoButton: document.getElementById('auto-button'),
             restartButton: document.getElementById('restart-button'),
             statsDisplay: document.getElementById('stats'),
-            themeToggle: document.getElementById('theme-toggle')
+            themeToggle: document.getElementById('theme-toggle'),
+            speedupButton: document.getElementById('speedup-button')
         };
 
         this.stats = this.loadStats();
@@ -84,6 +86,7 @@ class FoxGame {
         this.elements.grid.addEventListener('dragover', (e) => this.handleDragOver(e));
         this.elements.grid.addEventListener('drop', (e) => this.handleDrop(e));
         this.elements.themeToggle.addEventListener('click', () => this.toggleTheme());
+        this.elements.speedupButton.addEventListener('click', () => this.speedUpAutoPlay());
     }
 
     createRandomTiles() {
@@ -216,18 +219,25 @@ class FoxGame {
         
         tileElement.remove();
         
-        await new Promise(resolve => setTimeout(resolve, 400));
+        const flightTime = Math.max(40, 400 / this.config.animationSpeed);
+        const flipTime = Math.max(40, 400 / this.config.animationSpeed);
+        
+        // Dynamically set animation duration
+        flyingTile.style.animationDuration = flightTime + 'ms';
+        
+        await new Promise(resolve => setTimeout(resolve, flightTime));
         
         flyingTile.remove();
         
         cell.classList.add('tile-flipping');
+        cell.style.animationDuration = flipTime + 'ms';
         
         setTimeout(() => {
             cell.textContent = letter;
             this.state.placedTiles[cellIndex] = letter;
-        }, 200);
+        }, flipTime / 2);
         
-        await new Promise(resolve => setTimeout(resolve, 400));
+        await new Promise(resolve => setTimeout(resolve, flipTime));
 
         cell.classList.remove('tile-flipping');
         
@@ -258,6 +268,9 @@ class FoxGame {
         this.elements.autoButton.disabled = true;
         this.elements.autoButton.textContent = 'Auto Playing...';
         this.elements.restartButton.disabled = true;
+        this.elements.speedupButton.style.display = 'inline-block';
+        this.elements.speedupButton.disabled = false;
+        this.elements.speedupButton.textContent = 'Speed Up';
         
         const totalTiles = this.config.gridSize * this.config.gridSize;
         
@@ -287,6 +300,9 @@ class FoxGame {
         
         this.state.isAutoPlaying = false;
         this.elements.restartButton.disabled = false;
+        this.elements.speedupButton.style.display = 'none';
+        this.config.autoPlacementDelay = 200;
+        this.config.animationSpeed = 1;
         if (!this.state.gameEnded) {
             this.elements.autoButton.disabled = false;
             this.elements.autoButton.textContent = 'Automatic';
@@ -417,6 +433,15 @@ class FoxGame {
         this.elements.themeToggle.setAttribute('aria-label', 
             theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'
         );
+    }
+
+    speedUpAutoPlay() {
+        if (this.state.isAutoPlaying && this.config.autoPlacementDelay > 10) {
+            this.config.autoPlacementDelay = 10;
+            this.config.animationSpeed = 10;
+            this.elements.speedupButton.disabled = true;
+            this.elements.speedupButton.textContent = 'Max Speed!';
+        }
     }
 }
 

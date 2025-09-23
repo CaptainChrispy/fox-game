@@ -351,6 +351,27 @@ header {
     transform: translateY(-1px);
 }
 
+#speedup-button {
+    background: #28a745;
+    color: white;
+    border-color: #28a745;
+    display: none;
+}
+
+#speedup-button:hover:not(:disabled) {
+    background: #1e7e34;
+    border-color: #1e7e34;
+    transform: translateY(-1px);
+}
+
+#speedup-button:disabled {
+    background: #6c757d;
+    border-color: #6c757d;
+    color: white;
+    cursor: not-allowed;
+    transform: none;
+}
+
 #message:empty {
     display: none;
 }
