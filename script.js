@@ -188,6 +188,7 @@ class FoxGame {
 
         const cell = this.elements.grid.children[cellIndex];
         cell.textContent = letter;
+        cell.classList.add(`letter-${letter.toLowerCase()}`);
         this.state.placedTiles[cellIndex] = letter;
 
         if (tileElement) {
@@ -234,6 +235,7 @@ class FoxGame {
         
         setTimeout(() => {
             cell.textContent = letter;
+            cell.classList.add(`letter-${letter.toLowerCase()}`);
             this.state.placedTiles[cellIndex] = letter;
         }, flipTime / 2);
         
@@ -371,7 +373,7 @@ class FoxGame {
 
         Array.from(this.elements.grid.children).forEach(cell => {
             cell.textContent = '';
-            cell.classList.remove('fox-pattern');
+            cell.classList.remove('fox-pattern', 'letter-f', 'letter-o', 'letter-x');
         });
 
         this.elements.message.textContent = '';
